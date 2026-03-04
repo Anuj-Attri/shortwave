@@ -1,0 +1,262 @@
+[
+  {
+    "id": "sw-001",
+    "title": "Neon Tides",
+    "artist": "Velvet Circuit",
+    "coverUrl": "https://picsum.photos/seed/sw001/600/600",
+    "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    "links": {
+      "spotify": "https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC",
+      "apple": "https://music.apple.com/us/album/blinding-lights/1499378108?i=1499378119",
+      "youtube": "https://music.youtube.com/watch?v=4NRXx6U8ABQ"
+    },
+    "tags": ["night-drive", "synth", "electric"]
+  },
+  {
+    "id": "sw-002",
+    "title": "Rose Quartz",
+    "artist": "Luma Vale",
+    "coverUrl": "https://picsum.photos/seed/sw002/600/600",
+    "previewUrl": null,
+    "links": {
+      "spotify": "https://open.spotify.com/track/7ouMYWpwJ422jRcDASZB7P",
+      "apple": null,
+      "youtube": "https://music.youtube.com/watch?v=JGwWNGJdvx8"
+    },
+    "tags": ["dreamy", "indie", "soft"]
+  },
+  {
+    "id": "sw-003",
+    "title": "Backseat Orbit",
+    "artist": "Mira Noon",
+    "coverUrl": "https://picsum.photos/seed/sw003/600/600",
+    "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    "links": {
+      "spotify": null,
+      "apple": "https://music.apple.com/us/album/anti-hero/1649434004?i=1649434010",
+      "youtube": "https://music.youtube.com/watch?v=b1kbLwvqugk"
+    },
+    "tags": ["melancholic", "late-night", "alt-pop"]
+  },
+  {
+    "id": "sw-004",
+    "title": "Paper Planets",
+    "artist": "Kite Arcade",
+    "coverUrl": "https://picsum.photos/seed/sw004/600/600",
+    "previewUrl": null,
+    "links": {
+      "spotify": "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b",
+      "apple": "https://music.apple.com/us/album/blinding-lights/1499378108?i=1499378119",
+      "youtube": null
+    },
+    "tags": ["uplift", "indie", "city"]
+  },
+  {
+    "id": "sw-005",
+    "title": "Dust & Laser",
+    "artist": "Mono Shrine",
+    "coverUrl": "https://picsum.photos/seed/sw005/600/600",
+    "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    "links": {
+      "spotify": "https://open.spotify.com/track/6habFhsOp2NvshLv26DqMb",
+      "apple": null,
+      "youtube": "https://music.youtube.com/watch?v=J_ub7Etch2U"
+    },
+    "tags": ["funk", "retro", "groove"]
+  },
+  {
+    "id": "sw-006",
+    "title": "Blue Terrace",
+    "artist": "Avery Bloom",
+    "coverUrl": "https://picsum.photos/seed/sw006/600/600",
+    "previewUrl": null,
+    "links": {
+      "spotify": null,
+      "apple": "https://music.apple.com/us/album/flowers/1660699873?i=1660699880",
+      "youtube": "https://music.youtube.com/watch?v=G7KNmW9a75Y"
+    },
+    "tags": ["chill", "morning", "acoustic"]
+  },
+  {
+    "id": "sw-007",
+    "title": "Mirrored Avenue",
+    "artist": "Paloma Grid",
+    "coverUrl": "https://picsum.photos/seed/sw007/600/600",
+    "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+    "links": {
+      "spotify": "https://open.spotify.com/track/1xQ6trAsedVPCdbtDAmk0c",
+      "apple": "https://music.apple.com/us/album/as-it-was/1615584999?i=1615585001",
+      "youtube": null
+    },
+    "tags": ["dance", "polished", "glossy"]
+  },
+  {
+    "id": "sw-008",
+    "title": "Sunroom Static",
+    "artist": "Eli Harbor",
+    "coverUrl": "https://picsum.photos/seed/sw008/600/600",
+    "previewUrl": null,
+    "links": {
+      "spotify": "https://open.spotify.com/track/5QO79kh1waicV47BqGRL3g",
+      "apple": null,
+      "youtube": "https://music.youtube.com/watch?v=YQHsXMglC9A"
+    },
+    "tags": ["soul", "warm", "daylight"]
+  },
+  {
+    "id": "sw-009",
+    "title": "Parachute Cinema",
+    "artist": "Nori Vale",
+    "coverUrl": "https://picsum.photos/seed/sw009/600/600",
+    "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+    "links": {
+      "spotify": null,
+      "apple": "https://music.apple.com/us/album/paint-the-town-red/1703976080?i=1703976089",
+      "youtube": "https://music.youtube.com/watch?v=m4_9TFeMfJE"
+    },
+    "tags": ["bold", "alt", "playful"]
+  },
+  {
+    "id": "sw-010",
+    "title": "Atlas in Denim",
+    "artist": "Juniper South",
+    "coverUrl": "https://picsum.photos/seed/sw010/600/600",
+    "previewUrl": null,
+    "links": {
+      "spotify": "https://open.spotify.com/track/3AJwUDP919kvQ9QcozQPxg",
+      "apple": "https://music.apple.com/us/album/rolling-in-the-deep/420075073?i=420075083",
+      "youtube": null
+    },
+    "tags": ["anthemic", "vocals", "power"]
+  },
+  {
+    "id": "sw-011",
+    "title": "Lavender Transit",
+    "artist": "Cloud Rector",
+    "coverUrl": "https://picsum.photos/seed/sw011/600/600",
+    "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+    "links": {
+      "spotify": "https://open.spotify.com/track/2takcwOaAZWiXQijPHIx7B",
+      "apple": null,
+      "youtube": "https://music.youtube.com/watch?v=fJ9rUzIMcZQ"
+    },
+    "tags": ["night-drive", "dream-pop", "haze"]
+  },
+  {
+    "id": "sw-012",
+    "title": "Glass Flora",
+    "artist": "Sia North",
+    "coverUrl": "https://picsum.photos/seed/sw012/600/600",
+    "previewUrl": null,
+    "links": {
+      "spotify": null,
+      "apple": "https://music.apple.com/us/album/birds-of-a-feather/1739659134?i=1739659182",
+      "youtube": "https://music.youtube.com/watch?v=V9PVRfjEBTI"
+    },
+    "tags": ["minimal", "airy", "soft"]
+  },
+  {
+    "id": "sw-013",
+    "title": "Golden Algorithms",
+    "artist": "Pixel Family",
+    "coverUrl": "https://picsum.photos/seed/sw013/600/600",
+    "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
+    "links": {
+      "spotify": "https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh",
+      "apple": "https://music.apple.com/us/album/smells-like-teen-spirit/1440783617?i=1440783627",
+      "youtube": null
+    },
+    "tags": ["gritty", "alt-rock", "throwback"]
+  },
+  {
+    "id": "sw-014",
+    "title": "Polaroid Runner",
+    "artist": "The Meridian",
+    "coverUrl": "https://picsum.photos/seed/sw014/600/600",
+    "previewUrl": null,
+    "links": {
+      "spotify": "https://open.spotify.com/track/463CkQjx2Zk1yXoBuierM9",
+      "apple": null,
+      "youtube": "https://music.youtube.com/watch?v=3JWTaaS7LdU"
+    },
+    "tags": ["club", "tempo", "late-night"]
+  },
+  {
+    "id": "sw-015",
+    "title": "Skyline Uncut",
+    "artist": "Rio Saint",
+    "coverUrl": "https://picsum.photos/seed/sw015/600/600",
+    "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
+    "links": {
+      "spotify": null,
+      "apple": "https://music.apple.com/us/album/lovin-on-me/1716743838?i=1716743844",
+      "youtube": "https://music.youtube.com/watch?v=4wVOKKEHUJw"
+    },
+    "tags": ["hip-hop", "smooth", "luxury"]
+  },
+  {
+    "id": "sw-016",
+    "title": "Harbor Echo",
+    "artist": "Maya Sloane",
+    "coverUrl": "https://picsum.photos/seed/sw016/600/600",
+    "previewUrl": null,
+    "links": {
+      "spotify": "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT",
+      "apple": "https://music.apple.com/us/album/somebody-that-i-used-to-know/1450783619?i=1450783624",
+      "youtube": null
+    },
+    "tags": ["indie", "moody", "coastal"]
+  },
+  {
+    "id": "sw-017",
+    "title": "Mint Condition",
+    "artist": "Honey Motor",
+    "coverUrl": "https://picsum.photos/seed/sw017/600/600",
+    "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+    "links": {
+      "spotify": "https://open.spotify.com/track/5nTtCOCds6I0PHMNtqelas",
+      "apple": null,
+      "youtube": "https://music.youtube.com/watch?v=9bZkp7q19f0"
+    },
+    "tags": ["funk", "dance", "upbeat"]
+  },
+  {
+    "id": "sw-018",
+    "title": "Ocean in Velvet",
+    "artist": "Arden Blue",
+    "coverUrl": "https://picsum.photos/seed/sw018/600/600",
+    "previewUrl": null,
+    "links": {
+      "spotify": null,
+      "apple": "https://music.apple.com/us/album/cruel-summer/1468058165?i=1468058171",
+      "youtube": "https://music.youtube.com/watch?v=ic8j13piAhQ"
+    },
+    "tags": ["romantic", "lush", "pop"]
+  },
+  {
+    "id": "sw-019",
+    "title": "Zero Gravity Taxi",
+    "artist": "Comet Bureau",
+    "coverUrl": "https://picsum.photos/seed/sw019/600/600",
+    "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
+    "links": {
+      "spotify": "https://open.spotify.com/track/2Fxmhks0bxGSBdJ92vM42m",
+      "apple": "https://music.apple.com/us/album/bad-guy/1450695739?i=1450695742",
+      "youtube": null
+    },
+    "tags": ["minimal", "bass", "dark"]
+  },
+  {
+    "id": "sw-020",
+    "title": "Sunday Mirage",
+    "artist": "Rossi Lane",
+    "coverUrl": "https://picsum.photos/seed/sw020/600/600",
+    "previewUrl": null,
+    "links": {
+      "spotify": "https://open.spotify.com/track/6UelLqGlWMcVH1E5c4H7lY",
+      "apple": null,
+      "youtube": "https://music.youtube.com/watch?v=JGwWNGJdvx8"
+    },
+    "tags": ["comfort", "easy", "weekend"]
+  }
+]

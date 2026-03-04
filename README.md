@@ -1,100 +1,42 @@
 # Shortwave
 
-Shortwave is a swipe-based music discovery app.
+Shortwave is a swipe-first music discovery app focused on helping users find their next favorite track quickly.
 
-Instead of searching for music, users discover songs by swiping through short previews tailored to their taste.
+This MVP foundation delivers a premium, mobile-first UI with gesture controls, seed data, and local saved-state behavior while intentionally deferring provider ingestion and recommendation services.
 
-The system learns from swipe behavior and quickly adapts recommendations.
+## Frontend quick start
 
-Inspired by:
-- TikTok style discovery
-- Tinder swipe UX
-- Spotify recommendation systems
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-Goal:
-Make discovering new music effortless and fun.
+Build for production:
 
----
+```bash
+cd frontend
+npm run build
+```
 
-## Core Idea
+## MVP interactions
 
-Users swipe through songs:
+- Swipe right → Like
+- Swipe left → Dislike
+- Swipe up → Save
+- Swipe down → Skip
 
-Right → Like  
-Left → Dislike  
-Up → Save  
-Down → Skip
+Action buttons are also available for non-gesture users.
 
-The system updates a user taste vector and continuously improves recommendations.
+## Notes
 
----
+- Preview audio is optional per track and gracefully handled when missing.
+- Provider links (Spotify / Apple / YouTube) are rendered only when available.
+- Saved tracks persist in localStorage.
+- Mood + mode controls currently drive local filtering/reshuffling only.
 
-## Features
+## Deferred (future PRs)
 
-- Swipe-based music discovery
-- 30 second song previews
-- Mood prompt search
-- AI-powered recommendations
-- Exploration to prevent genre lock-in
-- Surreal interactive visuals
-
----
-
-## Tech Stack
-
-Frontend
-- React
-- Vite
-- Tailwind
-- Framer Motion
-
-Backend
-- Node / Express
-- SQLite
-
-Recommendation Engine
-- Embedding similarity
-- Multi-armed bandit exploration
-- Diversity constraints
-
----
-
-## Architecture
-
-User → Swipe Feedback  
-↓  
-Taste Vector Update  
-↓  
-Candidate Retrieval  
-↓  
-Ranking + Diversity Filter  
-↓  
-Next Swipe Deck
-
----
-
-## Data Sources (planned)
-
-- Apple iTunes API
-- Deezer API
-- Spotify metadata
-
-Audio playback will use preview clips only.
-
----
-
-## Development
-
-This project is built using AI coding agents.
-
-Workflow:
-
-Human → system design  
-Codex → implementation  
-GitHub Actions → CI validation
-
----
-
-## Status
-
-MVP under development.
+- Real provider ingestion APIs
+- AI recommender and ranking engine
+- Backend persistence and accounts
