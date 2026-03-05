@@ -17,10 +17,21 @@ const BUTTONS = [
 
 function detectSwipe(offsetX, offsetY) {
   const threshold = 120;
-  if (offsetX > threshold) return 'like';
-  if (offsetX < -threshold) return 'dislike';
-  if (offsetY < -threshold) return 'save';
-  if (offsetY > threshold) return 'skip';
+  const axisDominanceRatio = 1.25;
+
+  const absX = Math.abs(offsetX);
+  const absY = Math.abs(offsetY);
+
+  if (absX < threshold && absY < threshold) return null;
+
+  if (absX >= threshold && absX >= absY * axisDominanceRatio) {
+    return offsetX > 0 ? 'like' : 'dislike';
+  }
+
+  if (absY >= threshold && absY >= absX * axisDominanceRatio) {
+    return offsetY < 0 ? 'save' : 'skip';
+  }
+
   return null;
 }
 

@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
+import OnboardingFlow, { ONBOARDED_KEY } from './components/OnboardingFlow';
 import SwipeDeck from './components/SwipeDeck';
 import TopBar from './components/TopBar';
 import seedTracks from './data/tracks.seed.json';
 import { generateDeck, loadUserProfile, saveUserProfile, updateUserProfile } from './reco/recoEngine';
+import useProfileSeed from './hooks/useProfileSeed';
 
 const SAVED_KEY = 'shortwave_saved_tracks';
 
@@ -17,6 +19,9 @@ function App() {
     return raw ? JSON.parse(raw) : [];
   });
   const [savedOpen, setSavedOpen] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(() => localStorage.getItem(ONBOARDED_KEY) !== 'true');
+
+  useProfileSeed();
 
   const deck = useMemo(() => generateDeck(seedTracks, mood, mode, userProfile), [mode, mood, userProfile]);
   const currentEntry = deck[deckIndex];
@@ -69,6 +74,8 @@ function App() {
 
         <p className="px-4 text-xs text-white/50">Session actions: {history.length}</p>
       </section>
+
+      {showOnboarding && <OnboardingFlow onComplete={() => setShowOnboarding(false)} />}
 
       {savedOpen && (
         <div className="absolute inset-0 z-30 flex items-end bg-black/45 p-4 backdrop-blur-sm">
