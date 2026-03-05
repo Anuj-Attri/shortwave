@@ -3,39 +3,17 @@ import OnboardingFlow, { ONBOARDED_KEY } from './components/OnboardingFlow';
 import SwipeDeck from './components/SwipeDeck';
 import TopBar from './components/TopBar';
 import seedTracks from './data/tracks.seed.json';
+import { generateDeck, loadUserProfile, saveUserProfile, updateUserProfile } from './reco/recoEngine';
 import useProfileSeed from './hooks/useProfileSeed';
 
 const SAVED_KEY = 'shortwave_saved_tracks';
-
-const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
-
-function scoreTrack(track, query) {
-  if (!query) return 0;
-  const q = query.toLowerCase();
-  const text = [track.title, track.artist, track.tags.join(' ')].join(' ').toLowerCase();
-  return text.includes(q) ? 1 : 0;
-}
-
-function orderDeck(tracks, mode, mood) {
-  const withScore = tracks.map((track) => ({ track, score: scoreTrack(track, mood) }));
-  if (mode === 'Comfort') {
-    return withScore
-      .sort((a, b) => b.score - a.score)
-      .map((item) => item.track);
-  }
-  if (mode === 'Explore') {
-    const matched = withScore.filter((item) => item.score > 0).map((item) => item.track);
-    const rest = withScore.filter((item) => item.score === 0).map((item) => item.track);
-    return [...shuffle(matched), ...shuffle(rest)];
-  }
-  return shuffle(withScore.map((item) => item.track));
-}
 
 function App() {
   const [mood, setMood] = useState('');
   const [mode, setMode] = useState('Comfort');
   const [deckIndex, setDeckIndex] = useState(0);
   const [history, setHistory] = useState([]);
+  const [userProfile, setUserProfile] = useState(() => loadUserProfile());
   const [saved, setSaved] = useState(() => {
     const raw = localStorage.getItem(SAVED_KEY);
     return raw ? JSON.parse(raw) : [];
@@ -45,8 +23,9 @@ function App() {
 
   useProfileSeed();
 
-  const deck = useMemo(() => orderDeck(seedTracks, mode, mood), [mode, mood]);
-  const currentTrack = deck[deckIndex];
+  const deck = useMemo(() => generateDeck(seedTracks, mood, mode, userProfile), [mode, mood, userProfile]);
+  const currentEntry = deck[deckIndex];
+  const currentTrack = currentEntry?.track;
 
   useEffect(() => {
     setDeckIndex(0);
@@ -59,6 +38,10 @@ function App() {
   const handleAction = (action) => {
     if (!currentTrack) return;
     setHistory((prev) => [...prev, { trackId: currentTrack.id, action, timestamp: Date.now() }]);
+
+    const nextProfile = updateUserProfile(userProfile, currentTrack, action);
+    setUserProfile(nextProfile);
+    saveUserProfile(nextProfile);
 
     if (action === 'save') {
       setSaved((prev) => {
@@ -87,7 +70,7 @@ function App() {
           onOpenSaved={() => setSavedOpen(true)}
         />
 
-        <SwipeDeck track={currentTrack} onAction={handleAction} />
+        <SwipeDeck track={currentTrack} why={currentEntry?.why} onAction={handleAction} />
 
         <p className="px-4 text-xs text-white/50">Session actions: {history.length}</p>
       </section>
