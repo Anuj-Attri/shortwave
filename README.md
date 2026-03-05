@@ -4,7 +4,13 @@ Shortwave is a swipe-first music discovery app focused on helping users find the
 
 This MVP foundation delivers a premium, mobile-first UI with gesture controls, seed data, and local saved-state behavior while intentionally deferring provider ingestion and recommendation services.
 
+## CI
+
+![Frontend CI](https://github.com/Anuj-Attri/shortwave/actions/workflows/ci.yml/badge.svg?branch=main)
+
 ## Frontend quick start
+
+Required runtime: Node.js LTS.
 
 ```bash
 cd frontend
