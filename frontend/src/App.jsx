@@ -40,12 +40,9 @@ function App() {
     if (!currentTrack) return;
     setHistory((prev) => [...prev, { trackId: currentTrack.id, action, timestamp: Date.now() }]);
 
-    let nextProfile = userProfile;
-    setUserProfile((prev) => {
-      nextProfile = updateUserProfile(prev, currentTrack, action);
-      saveUserProfile(nextProfile);
-      return nextProfile;
-    });
+    const nextProfile = updateUserProfile(userProfile, currentTrack, action);
+    setUserProfile(nextProfile);
+    saveUserProfile(nextProfile);
 
     if (action === 'save') {
       setSaved((prev) => {
@@ -57,6 +54,8 @@ function App() {
     setDeckIndex((prev) => {
       const nextIndex = prev + 1;
       if (nextIndex >= deck.length) {
+        // Keep the current deck order stable for the whole run and only re-rank
+        // once the user reaches the end of the deck.
         setDeck(generateDeck(seedTracks, mood, mode, nextProfile));
         return 0;
       }
