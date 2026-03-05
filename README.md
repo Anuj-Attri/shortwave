@@ -28,6 +28,21 @@ npm run build
 
 Action buttons are also available for non-gesture users.
 
+## Onboarding flow
+
+- First visit shows a three-step onboarding modal before swiping starts.
+- Onboarding appears only once by storing `shortwave:onboarded=true` in `localStorage`.
+- User selections are persisted in `localStorage` under `shortwave:profileSeed`:
+
+```json
+{
+  "vibes": ["dreamy", "night-drive", "indie"],
+  "artists": ["Frank Ocean", "SZA", "Tame Impala"]
+}
+```
+
+- Seed data is intentionally stored for future recommender use and does not alter current ranking logic.
+
 ## Notes
 
 - Preview audio is optional per track and gracefully handled when missing.
