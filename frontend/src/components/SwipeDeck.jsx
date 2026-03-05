@@ -24,7 +24,7 @@ function detectSwipe(offsetX, offsetY) {
   return null;
 }
 
-function SwipeDeck({ track, onAction }) {
+function SwipeDeck({ track, why, onAction }) {
   if (!track) {
     return (
       <div className="rounded-3xl border border-white/20 bg-black/40 p-8 text-center text-white/80 backdrop-blur-lg">
@@ -50,7 +50,7 @@ function SwipeDeck({ track, onAction }) {
           }}
           whileDrag={{ scale: 1.01, rotate: 0.8 }}
         >
-          <MusicCard track={track} />
+          <MusicCard track={track} why={why} />
         </motion.div>
       </AnimatePresence>
 

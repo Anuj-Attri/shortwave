@@ -23,7 +23,7 @@ function ProviderButton({ href, label }) {
   );
 }
 
-function MusicCard({ track }) {
+function MusicCard({ track, why }) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -73,6 +73,7 @@ function MusicCard({ track }) {
             </span>
           ))}
         </div>
+        <p className="text-xs text-cyan-100/80">{why || 'Play more tracks to personalize recommendations.'}</p>
       </div>
 
       <div className="mt-4 rounded-2xl border border-white/15 bg-white/5 p-3">
