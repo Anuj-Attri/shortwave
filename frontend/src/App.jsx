@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import OnboardingFlow, { ONBOARDED_KEY } from './components/OnboardingFlow';
 import SwipeDeck from './components/SwipeDeck';
 import TopBar from './components/TopBar';
@@ -14,6 +14,7 @@ function App() {
   const [deckIndex, setDeckIndex] = useState(0);
   const [history, setHistory] = useState([]);
   const [userProfile, setUserProfile] = useState(() => loadUserProfile());
+  const [deck, setDeck] = useState(() => generateDeck(seedTracks, '', 'Comfort', userProfile));
   const [saved, setSaved] = useState(() => {
     const raw = localStorage.getItem(SAVED_KEY);
     return raw ? JSON.parse(raw) : [];
@@ -23,11 +24,11 @@ function App() {
 
   useProfileSeed();
 
-  const deck = useMemo(() => generateDeck(seedTracks, mood, mode, userProfile), [mode, mood, userProfile]);
   const currentEntry = deck[deckIndex];
   const currentTrack = currentEntry?.track;
 
   useEffect(() => {
+    setDeck(generateDeck(seedTracks, mood, mode, userProfile));
     setDeckIndex(0);
   }, [mode, mood]);
 
@@ -39,9 +40,12 @@ function App() {
     if (!currentTrack) return;
     setHistory((prev) => [...prev, { trackId: currentTrack.id, action, timestamp: Date.now() }]);
 
-    const nextProfile = updateUserProfile(userProfile, currentTrack, action);
-    setUserProfile(nextProfile);
-    saveUserProfile(nextProfile);
+    let nextProfile = userProfile;
+    setUserProfile((prev) => {
+      nextProfile = updateUserProfile(prev, currentTrack, action);
+      saveUserProfile(nextProfile);
+      return nextProfile;
+    });
 
     if (action === 'save') {
       setSaved((prev) => {
@@ -50,7 +54,14 @@ function App() {
       });
     }
 
-    setDeckIndex((prev) => prev + 1);
+    setDeckIndex((prev) => {
+      const nextIndex = prev + 1;
+      if (nextIndex >= deck.length) {
+        setDeck(generateDeck(seedTracks, mood, mode, nextProfile));
+        return 0;
+      }
+      return nextIndex;
+    });
   };
 
   return (
