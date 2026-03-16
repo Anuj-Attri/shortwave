@@ -3,6 +3,9 @@ import { useSyncExternalStore } from 'react';
 export const PROFILE_SEED_KEY = 'shortwave:profileSeed';
 export const PROFILE_SEED_UPDATED_EVENT = 'shortwave:profileSeedUpdated';
 
+let cachedRawProfileSeed = undefined;
+let cachedParsedProfileSeed = null;
+
 function getStorage() {
   if (typeof window === 'undefined') return null;
   try {
@@ -17,20 +20,33 @@ function readProfileSeed() {
   if (!storage) return null;
 
   const raw = storage.getItem(PROFILE_SEED_KEY);
-  if (!raw) return null;
+  if (raw === cachedRawProfileSeed) {
+    return cachedParsedProfileSeed;
+  }
+
+  cachedRawProfileSeed = raw;
+
+  if (!raw) {
+    cachedParsedProfileSeed = null;
+    return cachedParsedProfileSeed;
+  }
 
   try {
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed?.vibes) || !Array.isArray(parsed?.artists)) {
-      return null;
+      cachedParsedProfileSeed = null;
+      return cachedParsedProfileSeed;
     }
 
-    return {
+    cachedParsedProfileSeed = {
       vibes: parsed.vibes.filter((value) => typeof value === 'string'),
       artists: parsed.artists.filter((value) => typeof value === 'string'),
     };
+
+    return cachedParsedProfileSeed;
   } catch {
-    return null;
+    cachedParsedProfileSeed = null;
+    return cachedParsedProfileSeed;
   }
 }
 
