@@ -27,4 +27,14 @@ export default [
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },
+
+  {
+    files: ['**/*.test.js'],
+    languageOptions: {
+      globals: {
+        global: 'readonly',
+        process: 'readonly',
+      },
+    },
+  },
 ];

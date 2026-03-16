@@ -30,13 +30,13 @@ describe('itunes provider', () => {
   });
 
   it('throws when provider request fails', async () => {
-    const originalFetch = global.fetch;
-    global.fetch = async () => ({ ok: false, status: 503 });
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => ({ ok: false, status: 503 });
 
     try {
       await assert.rejects(() => searchTracks('house'), /itunes search failed: 503/i);
     } finally {
-      global.fetch = originalFetch;
+      globalThis.fetch = originalFetch;
     }
   });
 });
