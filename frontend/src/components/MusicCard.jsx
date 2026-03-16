@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+const FALLBACK_COVER =
+  'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600"><rect width="100%" height="100%" fill="%230b1020"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23d1d5db" font-size="24" font-family="Arial">No Cover</text></svg>';
+
 function formatTime(time) {
   if (!Number.isFinite(time)) return '0:00';
   const min = Math.floor(time / 60);
@@ -9,7 +12,7 @@ function formatTime(time) {
   return `${min}:${sec}`;
 }
 
-function isValidPreviewUrl(url) {
+function isValidHttpUrl(url) {
   if (typeof url !== 'string' || url.trim().length === 0) {
     return false;
   }
@@ -29,13 +32,15 @@ function stopAudio(audioEl) {
 }
 
 function ProviderButton({ href, label }) {
-  if (!href) return null;
+  if (!isValidHttpUrl(href)) return null;
+
   return (
     <a
       href={href}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium text-white/90 hover:bg-white/10"
+      aria-label={`Open ${label}`}
     >
       {label}
     </a>
@@ -47,13 +52,18 @@ function MusicCard({ track, why }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  const previewAvailable = useMemo(() => isValidPreviewUrl(track.previewUrl), [track.previewUrl]);
+  const title = track?.title || 'Untitled track';
+  const artist = track?.artist || 'Unknown artist';
+  const genre = track?.genre || 'Discovery';
+  const durationSec = Number.isFinite(track?.durationSec) && track.durationSec > 0 ? track.durationSec : 30;
+  const coverUrl = isValidHttpUrl(track?.coverUrl) ? track.coverUrl : FALLBACK_COVER;
+  const previewAvailable = useMemo(() => isValidHttpUrl(track?.previewUrl), [track?.previewUrl]);
 
   useEffect(() => {
     setIsPlaying(false);
     setProgress(0);
     stopAudio(audioRef.current);
-  }, [track.id]);
+  }, [track?.id]);
 
   useEffect(
     () => () => {
@@ -62,10 +72,7 @@ function MusicCard({ track, why }) {
     [],
   );
 
-  const progressPercent = useMemo(() => {
-    if (!track.durationSec) return 0;
-    return Math.min(100, (progress / track.durationSec) * 100);
-  }, [progress, track.durationSec]);
+  const progressPercent = useMemo(() => Math.min(100, (progress / durationSec) * 100), [progress, durationSec]);
 
   const togglePlayback = async () => {
     if (!previewAvailable || !audioRef.current) return;
@@ -87,13 +94,13 @@ function MusicCard({ track, why }) {
   return (
     <article className="w-full rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur-xl shadow-glow">
       <div className="aspect-square overflow-hidden rounded-2xl">
-        <img src={track.coverUrl} alt={`${track.title} cover`} className="h-full w-full object-cover" />
+        <img src={coverUrl} alt={`${title} cover`} className="h-full w-full object-cover" />
       </div>
 
       <div className="mt-4">
-        <p className="text-xs uppercase tracking-[0.2em] text-white/60">{track.genre}</p>
-        <h2 className="mt-1 text-2xl font-semibold text-white">{track.title}</h2>
-        <p className="text-white/80">{track.artist}</p>
+        <p className="text-xs uppercase tracking-[0.2em] text-white/60">{genre}</p>
+        <h2 className="mt-1 text-2xl font-semibold text-white">{title}</h2>
+        <p className="text-white/80">{artist}</p>
       </div>
 
       <div className="mt-4 space-y-2">
@@ -102,12 +109,12 @@ function MusicCard({ track, why }) {
         </div>
         <div className="flex items-center justify-between text-xs text-white/60">
           <span>{formatTime(progress)}</span>
-          <span>{formatTime(track.durationSec)}</span>
+          <span>{formatTime(durationSec)}</span>
         </div>
         <p className="text-xs text-cyan-100/80">{why || 'Play more tracks to personalize recommendations.'}</p>
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between gap-3">
         <div className="text-xs text-white/60">{previewAvailable ? '30s preview' : 'Preview unavailable'}</div>
         <button
           type="button"
@@ -135,9 +142,9 @@ function MusicCard({ track, why }) {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <ProviderButton href={track.links?.spotify} label="Spotify" />
-        <ProviderButton href={track.links?.apple} label="Apple" />
-        <ProviderButton href={track.links?.youtube} label="YouTube" />
+        <ProviderButton href={track?.links?.spotify} label="Spotify" />
+        <ProviderButton href={track?.links?.apple} label="Apple" />
+        <ProviderButton href={track?.links?.youtube} label="YouTube" />
       </div>
     </article>
   );

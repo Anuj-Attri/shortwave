@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
 import { generateDeck, loadUserProfile, saveUserProfile, updateUserProfile } from './recoEngine.js';
 
 const baseTrack = { id: '1', title: 'Test Song', artist: 'Artist A', tags: ['electro', 'night'] };
@@ -13,29 +14,29 @@ function seededRandom(seed) {
 
 describe('profile storage + updates', () => {
   it('handles storage calls safely when localStorage is unavailable', () => {
-    expect(loadUserProfile()).toEqual({ likedTags: {}, dislikedTags: {}, artistWeights: {}, recentHistory: [] });
-    expect(() => saveUserProfile({ likedTags: { electro: 1 } })).not.toThrow();
+    assert.deepEqual(loadUserProfile(), { likedTags: {}, dislikedTags: {}, artistWeights: {}, recentHistory: [] });
+    assert.doesNotThrow(() => saveUserProfile({ likedTags: { electro: 1 } }));
   });
 
   it('applies tag and artist weights for like/dislike/save and records seen tracks', () => {
     const initial = { likedTags: {}, dislikedTags: {}, artistWeights: {}, recentHistory: [] };
 
     const liked = updateUserProfile(initial, baseTrack, 'like');
-    expect(liked.likedTags.electro).toBe(1);
-    expect(liked.artistWeights['artist a']).toBe(0.5);
+    assert.equal(liked.likedTags.electro, 1);
+    assert.equal(liked.artistWeights['artist a'], 0.5);
 
     const disliked = updateUserProfile(liked, baseTrack, 'dislike');
-    expect(disliked.dislikedTags.electro).toBe(1);
-    expect(disliked.artistWeights['artist a']).toBe(0.25);
+    assert.equal(disliked.dislikedTags.electro, 1);
+    assert.equal(disliked.artistWeights['artist a'], 0.25);
 
     const saved = updateUserProfile(disliked, baseTrack, 'save');
-    expect(saved.likedTags.electro).toBe(3);
-    expect(saved.artistWeights['artist a']).toBe(1.25);
-    expect(saved.recentHistory[0]).toBe('1');
+    assert.equal(saved.likedTags.electro, 3);
+    assert.equal(saved.artistWeights['artist a'], 1.25);
+    assert.equal(saved.recentHistory[0], '1');
 
     const skipped = updateUserProfile(saved, { ...baseTrack, id: '2' }, 'skip');
-    expect(skipped.recentHistory[0]).toBe('2');
-    expect(skipped.likedTags.electro).toBe(3);
+    assert.equal(skipped.recentHistory[0], '2');
+    assert.equal(skipped.likedTags.electro, 3);
   });
 });
 
@@ -62,6 +63,6 @@ describe('generateDeck', () => {
       (entry) => entry.track.id,
     );
 
-    expect(deckA).toEqual(deckB);
+    assert.deepEqual(deckA, deckB);
   });
 });
