@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import OnboardingFlow, { ONBOARDED_KEY } from './components/OnboardingFlow';
 import SwipeDeck from './components/SwipeDeck';
 import TopBar from './components/TopBar';
+import { getProviderName, searchTracks } from './providers';
 import seedTracks from './data/tracks.seed.json';
 import { generateDeck, loadUserProfile, saveUserProfile, updateUserProfile } from './reco/recoEngine';
 import useProfileSeed from './hooks/useProfileSeed';
@@ -74,10 +75,16 @@ function App() {
   const [saved, setSaved] = useState(() => loadSavedTracks());
   const [savedOpen, setSavedOpen] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(() => shouldShowOnboarding());
+  const [providerTracks, setProviderTracks] = useState([]);
+  const [searchStatus, setSearchStatus] = useState('idle');
+  const [searchError, setSearchError] = useState('');
 
   const profileSeed = useProfileSeed();
+  const usingLiveTracks = providerTracks.length > 0;
+  const activeTracks = usingLiveTracks ? providerTracks : seedTracks;
+  const providerName = getProviderName();
 
-  const deck = useMemo(() => generateDeck(seedTracks, mood, mode, userProfile), [mode, mood, userProfile]);
+  const deck = useMemo(() => generateDeck(activeTracks, mood, mode, userProfile), [activeTracks, mode, mood, userProfile]);
   const currentEntry = deck[deckIndex];
   const currentTrack = currentEntry?.track;
 
@@ -90,7 +97,7 @@ function App() {
 
   useEffect(() => {
     setDeckIndex(0);
-  }, [mode, mood]);
+  }, [mode, mood, providerTracks]);
 
   useEffect(() => {
     const storage = getStorage();
@@ -102,6 +109,36 @@ function App() {
       // Ignore storage quota/security errors; in-memory state still works.
     }
   }, [saved]);
+
+  const handleSearchSubmit = async (query) => {
+    const normalizedQuery = String(query || '').trim();
+
+    if (!normalizedQuery) {
+      setProviderTracks([]);
+      setSearchStatus('idle');
+      setSearchError('');
+      return;
+    }
+
+    setSearchStatus('loading');
+    setSearchError('');
+
+    try {
+      const liveTracks = await searchTracks(normalizedQuery, 24);
+      if (!Array.isArray(liveTracks) || liveTracks.length === 0) {
+        setProviderTracks([]);
+        setSearchStatus('empty');
+        return;
+      }
+
+      setProviderTracks(liveTracks);
+      setSearchStatus('success');
+    } catch (error) {
+      setProviderTracks([]);
+      setSearchStatus('error');
+      setSearchError(error instanceof Error ? error.message : 'Unable to load live tracks.');
+    }
+  };
 
   const handleAction = (action) => {
     if (!currentTrack) return;
@@ -136,7 +173,25 @@ function App() {
           setMode={setMode}
           savedCount={saved.length}
           onOpenSaved={() => setSavedOpen(true)}
+          onSearchSubmit={handleSearchSubmit}
+          loading={searchStatus === 'loading'}
         />
+
+        <p className="px-4 text-center text-xs text-white/60">
+          Source: {usingLiveTracks ? `${providerName} (${providerTracks.length} live tracks)` : 'Seed catalog fallback'}
+        </p>
+
+        {searchStatus === 'error' && (
+          <p className="rounded-xl border border-rose-300/30 bg-rose-500/10 px-4 py-2 text-center text-xs text-rose-100">
+            Live provider unavailable ({searchError || 'unknown error'}). Showing seed tracks.
+          </p>
+        )}
+
+        {searchStatus === 'empty' && (
+          <p className="rounded-xl border border-amber-300/30 bg-amber-500/10 px-4 py-2 text-center text-xs text-amber-100">
+            No live results found for "{mood}". Showing seed tracks.
+          </p>
+        )}
 
         <SwipeDeck track={currentTrack} why={currentEntry?.why} onAction={handleAction} />
 
