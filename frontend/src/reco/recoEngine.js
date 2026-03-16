@@ -17,8 +17,12 @@ const MODE_CONFIG = {
 };
 
 function getStorage() {
-  if (typeof window === 'undefined' || !window.localStorage) return null;
-  return window.localStorage;
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
 }
 
 function toProfile(profile) {
@@ -46,7 +50,11 @@ export function loadUserProfile() {
 export function saveUserProfile(profile) {
   const storage = getStorage();
   if (!storage) return;
-  storage.setItem(USER_PROFILE_KEY, JSON.stringify(toProfile(profile)));
+  try {
+    storage.setItem(USER_PROFILE_KEY, JSON.stringify(toProfile(profile)));
+  } catch {
+    // Ignore quota/security errors; app keeps in-memory state.
+  }
 }
 
 function upsertWeight(map, key, delta) {

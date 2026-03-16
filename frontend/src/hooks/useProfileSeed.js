@@ -2,8 +2,20 @@ import { useMemo } from 'react';
 
 export const PROFILE_SEED_KEY = 'shortwave:profileSeed';
 
+function getStorage() {
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
 function readProfileSeed() {
-  const raw = localStorage.getItem(PROFILE_SEED_KEY);
+  const storage = getStorage();
+  if (!storage) return null;
+
+  const raw = storage.getItem(PROFILE_SEED_KEY);
   if (!raw) return null;
 
   try {

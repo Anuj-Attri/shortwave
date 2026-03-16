@@ -26,6 +26,15 @@ const motionProps = {
   transition: { duration: 0.28, ease: 'easeOut' },
 };
 
+function getStorage() {
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
 function Chip({ active, onClick, children }) {
   return (
     <button
@@ -75,8 +84,11 @@ export default function OnboardingFlow({ onComplete }) {
   };
 
   const completeOnboarding = () => {
-    localStorage.setItem(ONBOARDED_KEY, 'true');
-    localStorage.setItem(PROFILE_SEED_KEY, JSON.stringify({ vibes, artists }));
+    const storage = getStorage();
+    if (storage) {
+      storage.setItem(ONBOARDED_KEY, 'true');
+      storage.setItem(PROFILE_SEED_KEY, JSON.stringify({ vibes, artists }));
+    }
     onComplete();
   };
 
@@ -85,7 +97,9 @@ export default function OnboardingFlow({ onComplete }) {
       <div className="w-full max-w-md rounded-3xl border border-white/15 bg-[#0a0f1d]/90 p-5 shadow-[0_24px_80px_rgba(15,23,42,.55)]">
         <div className="mb-6 flex items-center justify-between text-xs uppercase tracking-[0.22em] text-white/45">
           <span>Shortwave setup</span>
-          <span>{step + 1}/3 · {stepLabel}</span>
+          <span>
+            {step + 1}/3 · {stepLabel}
+          </span>
         </div>
 
         <AnimatePresence mode="wait">
