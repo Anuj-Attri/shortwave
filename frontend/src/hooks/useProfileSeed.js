@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { useSyncExternalStore } from 'react';
 
 export const PROFILE_SEED_KEY = 'shortwave:profileSeed';
+export const PROFILE_SEED_UPDATED_EVENT = 'shortwave:profileSeedUpdated';
 
 function getStorage() {
   if (typeof window === 'undefined') return null;
@@ -34,5 +35,25 @@ function readProfileSeed() {
 }
 
 export default function useProfileSeed() {
-  return useMemo(() => readProfileSeed(), []);
+  return useSyncExternalStore(
+    (onStoreChange) => {
+      if (typeof window === 'undefined') return () => {};
+
+      const handleStorage = (event) => {
+        if (!event || event.key === PROFILE_SEED_KEY) {
+          onStoreChange();
+        }
+      };
+
+      window.addEventListener('storage', handleStorage);
+      window.addEventListener(PROFILE_SEED_UPDATED_EVENT, onStoreChange);
+
+      return () => {
+        window.removeEventListener('storage', handleStorage);
+        window.removeEventListener(PROFILE_SEED_UPDATED_EVENT, onStoreChange);
+      };
+    },
+    readProfileSeed,
+    () => null,
+  );
 }
