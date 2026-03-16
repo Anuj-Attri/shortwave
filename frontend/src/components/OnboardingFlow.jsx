@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
-import { PROFILE_SEED_KEY } from '../hooks/useProfileSeed';
+import { PROFILE_SEED_KEY, PROFILE_SEED_UPDATED_EVENT } from '../hooks/useProfileSeed';
 
 export const ONBOARDED_KEY = 'shortwave:onboarded';
 
@@ -88,6 +88,9 @@ export default function OnboardingFlow({ onComplete }) {
     if (storage) {
       storage.setItem(ONBOARDED_KEY, 'true');
       storage.setItem(PROFILE_SEED_KEY, JSON.stringify({ vibes, artists }));
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event(PROFILE_SEED_UPDATED_EVENT));
+      }
     }
     onComplete();
   };
