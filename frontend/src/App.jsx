@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import OnboardingFlow, { ONBOARDED_KEY } from './components/OnboardingFlow';
 import SwipeDeck from './components/SwipeDeck';
 import TopBar from './components/TopBar';
@@ -78,6 +78,7 @@ function App() {
   const [providerTracks, setProviderTracks] = useState([]);
   const [searchStatus, setSearchStatus] = useState('idle');
   const [searchError, setSearchError] = useState('');
+  const latestSearchRequestRef = useRef(0);
 
   const profileSeed = useProfileSeed();
   const usingLiveTracks = providerTracks.length > 0;
@@ -112,6 +113,8 @@ function App() {
 
   const handleSearchSubmit = async (query) => {
     const normalizedQuery = String(query || '').trim();
+    const requestId = latestSearchRequestRef.current + 1;
+    latestSearchRequestRef.current = requestId;
 
     if (!normalizedQuery) {
       setProviderTracks([]);
@@ -125,6 +128,8 @@ function App() {
 
     try {
       const liveTracks = await searchTracks(normalizedQuery, 24);
+      if (requestId !== latestSearchRequestRef.current) return;
+
       if (!Array.isArray(liveTracks) || liveTracks.length === 0) {
         setProviderTracks([]);
         setSearchStatus('empty');
@@ -134,6 +139,8 @@ function App() {
       setProviderTracks(liveTracks);
       setSearchStatus('success');
     } catch (error) {
+      if (requestId !== latestSearchRequestRef.current) return;
+
       setProviderTracks([]);
       setSearchStatus('error');
       setSearchError(error instanceof Error ? error.message : 'Unable to load live tracks.');
